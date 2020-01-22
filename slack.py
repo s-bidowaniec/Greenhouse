@@ -1,7 +1,7 @@
 import os
 import time
 import re
-from slackclient import SlackClient
+from slackbot.slackclient import SlackClient
 
 
 # instantiate Slack client
