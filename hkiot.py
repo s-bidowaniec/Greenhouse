@@ -1,6 +1,8 @@
 import os
 import datetime
 from slack import RTMClient
+import Adafruit_GPIO.SPI as SPI
+import Adafruit_MCP3008
 
 # Hardware SPI configuration:
 SPI_PORT = 0
