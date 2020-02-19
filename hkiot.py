@@ -3,6 +3,11 @@ import datetime
 from slack import RTMClient
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(18,GPIO.OUT)
 
 # Hardware SPI configuration:
 SPI_PORT = 0
@@ -34,7 +39,11 @@ def say_hello(**payload):
         if 'pokrzywa' in data['text']:
             value = mcp.read_adc(0)
             response("w doniczce wilgotność wynosi około {}%".format(value/4))
-
+        if 'on' in in data['text']:
+            GPIO.output(18,GPIO.HIGH)
+        if 'off' in in data['text']:
+            GPIO.output(18,GPIO.LOW)
+            
 slack_token = os.environ['SLACK_BOT_TOKEN']
 rtm_client = RTMClient(token=slack_token)
 rtm_client.start()
