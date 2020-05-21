@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 import os
-os.chdir("/home/pi/Scripts/HK-47-IoT/")
+import sys
+sys.path.append(os.path.abspath("/home/pi/Scripts/HK-47-IoT/"))
 import datetime
 from slack import RTMClient
 from secrets import slack_token
