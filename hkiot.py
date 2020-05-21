@@ -1,6 +1,9 @@
+#!/usr/bin/env python3
+
 import os
 import datetime
 from slack import RTMClient
+from secrets import slack_token
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 import RPi.GPIO as GPIO
@@ -44,6 +47,6 @@ def say_hello(**payload):
         if 'off' in data['text']:
             GPIO.output(18,GPIO.LOW)
 
-slack_token = os.environ['SLACK_BOT_TOKEN']
+#slack_token = os.environ['SLACK_BOT_TOKEN']
 rtm_client = RTMClient(token=slack_token)
 rtm_client.start()
