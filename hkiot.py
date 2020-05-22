@@ -8,6 +8,7 @@ from slack import RTMClient
 from secrets import slack_token
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
+import Adafruit_DHT
 import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BCM)
@@ -18,7 +19,8 @@ GPIO.setup(18,GPIO.OUT)
 SPI_PORT = 0
 SPI_DEVICE = 0
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
-
+DHT_SENSOR = Adafruit_DHT.DHT11
+DHT_PIN = 17
 
 @RTMClient.run_on(event="message")
 def say_hello(**payload):
@@ -39,15 +41,21 @@ def say_hello(**payload):
     if 'text' in data.keys():
         if 'Hello' in data['text']:
             response(f"Hi!")
-        if 'time' in data['text']:
+        elif 'time' in data['text']:
             response(datetime.datetime.now())
-        if 'pokrzywa' in data['text']:
+        elif 'pokrzywa' in data['text']:
             value = mcp.read_adc(0)
             response("w doniczce wilgotność wynosi około {}%".format(value/4))
-        if 'on' in data['text']:
+        elif 'on' in data['text']:
             GPIO.output(18,GPIO.HIGH)
-        if 'off' in data['text']:
+        elif 'off' in data['text']:
             GPIO.output(18,GPIO.LOW)
+        elif 'pogoda' in data['text']:
+            humidity, temperature = Adafruit_DHT.read(DHT_SENSOR, DHT_PIN)
+            if humidity is not None and temperature is not None:
+                response("Temperatura powietrza wynosi {0:0.1f}C natomiast wilgotność {1:0.1f}%".format(temperature, humidity))
+            else:
+                response("Czujnik DHT nie odpowiada")
 
 #slack_token = os.environ['SLACK_BOT_TOKEN']
 rtm_client = RTMClient(token=slack_token)
