@@ -57,6 +57,5 @@ def say_hello(**payload):
             else:
                 response("Czujnik DHT nie odpowiada")
 
-#slack_token = os.environ['SLACK_BOT_TOKEN']
 rtm_client = RTMClient(token=slack_token)
 rtm_client.start()
