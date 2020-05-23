@@ -25,7 +25,7 @@ DHT_SENSOR = Adafruit_DHT.DHT11
 DHT_PIN = 17
 
 while True:
-    time = (datetime.datetime.now() + timedelta(hours=1)).strftime('%Y %m %d %H')
+    time = (datetime.datetime.now() + datetime.timedelta(hours=1)).strftime('%Y %m %d %H')
     pause.until(time)
     humidity_ground = mcp.read_adc(0)/4
     if humidity_ground is None:
