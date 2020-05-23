@@ -45,14 +45,23 @@ def say_hello(**payload):
         if 'hello' in data['text'].lower():
             response(f"Hi!")
         elif 'podlej' in data['text'].lower():
-            response("podlewanie rozpoczęte {}".format(datetime.datetime.now()))
+            try:
+                num = int(data['text'].split()[0])
+            except:
+                num = 60
+            response("podlewanie rozpoczęte {}, na {} minut.".format(datetime.datetime.now(), num))
             GPIO.output(15,GPIO.HIGH)
-            time.sleep(5)
+            time.sleep(num*60)
             GPIO.output(15,GPIO.LOW)
             response("podlewanie zakonczone {}".format(datetime.datetime.now()))
         elif 'wentyluj' in data['text'].lower():
+            try:
+                num = int(data['text'].split()[0])
+            except:
+                num = 60
+            response("wentylowanie rozpoczęte {}, na {} minut".format(datetime.datetime.now(), num))
             GPIO.output(18,GPIO.HIGH)
-            time.sleep(5)
+            time.sleep(num*60)
             GPIO.output(18,GPIO.LOW)
             response("wentylowanie zakonczone {}".format(datetime.datetime.now()))
         elif 'stop' in data['text'].lower():
@@ -61,7 +70,9 @@ def say_hello(**payload):
         elif 'raport' in data['text'].lower():
             humidity_air, temperature_air = Adafruit_DHT.read(DHT_SENSOR, DHT_PIN)
             humidity_ground = mcp.read_adc(0)
-            if humidity is not None and temperature is not None:
+            if humidity_ground is None:
+                response("Czujnik wilgotnosci gleby nie odpowiada")
+            elif humidity is not None and temperature is not None:
                 response("Wilgotność gruntu wynosi {}%, temperatura powietrza wynosi {0:0.1f}C natomiast wilgotność powietrza {1:0.1f}%".format(humidity_ground, temperature_air, humidity_air))
             else:
                 response("Czujnik DHT nie odpowiada")
