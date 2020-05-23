@@ -44,13 +44,11 @@ def say_hello(**payload):
         if 'hello' in data['text'].lower():
             response(f"Hi!")
         elif 'podlej' in data['text'].lower():
-            response("rozpoczynam podlewanie {}".format(datetime.datetime.now()))
             GPIO.output(15,GPIO.HIGH)
             time.sleep(5)
             GPIO.output(15,GPIO.LOW)
             response("podlewanie zakonczone {}".format(datetime.datetime.now()))
         elif 'wentyluj' in data['text'].lower():
-            response("rozpoczynam wentylowanie {}".format(datetime.datetime.now()))
             GPIO.output(18,GPIO.HIGH)
             time.sleep(5)
             GPIO.output(18,GPIO.LOW)
