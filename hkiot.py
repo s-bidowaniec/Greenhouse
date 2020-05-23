@@ -4,6 +4,7 @@ import os
 import sys
 sys.path.append(os.path.abspath("/home/pi/Scripts/HK-47-IoT/"))
 import datetime
+import time
 from slack import RTMClient
 from secrets import slack_token
 import Adafruit_GPIO.SPI as SPI
@@ -44,6 +45,7 @@ def say_hello(**payload):
         if 'hello' in data['text'].lower():
             response(f"Hi!")
         elif 'podlej' in data['text'].lower():
+            response("podlewanie rozpoczęte {}".format(datetime.datetime.now()))
             GPIO.output(15,GPIO.HIGH)
             time.sleep(5)
             GPIO.output(15,GPIO.LOW)

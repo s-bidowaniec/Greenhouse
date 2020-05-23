@@ -24,14 +24,21 @@ DHT_SENSOR = Adafruit_DHT.DHT11
 DHT_PIN = 17
 
 while True:
-    humidity_air, temperature_air = Adafruit_DHT.read(DHT_SENSOR, DHT_PIN)
     humidity_ground = mcp.read_adc(0)/4
+    if humidity_ground is None:
+        humidity_ground = 100
     if humidity_ground < 80:
         GPIO.output(15,GPIO.HIGH)
         time.sleep(5)
         GPIO.output(15,GPIO.LOW)
+
+    humidity_air, temperature_air = Adafruit_DHT.read(DHT_SENSOR, DHT_PIN)
+    if humidity_air is None:
+        humidity_air = 0
+    if temperature_air is None:
+        temperature_air = 0
     if temperature_air > 20 or humidity_air > 70:
         GPIO.output(18,GPIO.HIGH)
         time.sleep(5)
         GPIO.output(18,GPIO.LOW)
-    time.sleep(5)
+    time.sleep(10)
