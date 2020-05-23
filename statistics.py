@@ -25,8 +25,8 @@ DHT_SENSOR = Adafruit_DHT.DHT11
 DHT_PIN = 17
 
 while True:
-    time_full = (datetime.datetime.now() + datetime.timedelta(hours=1)).strftime('%Y %m %d %H')
-    time.sleep(datetime.datetime.now() - time_full)
+    time_full = (60 - datetime.datetime.now().minute)*60 - datetime.datetime.now().second
+    time.sleep(time_full)
     humidity_ground = mcp.read_adc(0)/4
     if humidity_ground is None:
         humidity_ground = -999
@@ -36,6 +36,6 @@ while True:
     if temperature_air is None:
         temperature_air = -999
     f = open("demofile2.txt", "a")
-    f.write("{}, {}, {}, {}".format(time_full, humidity_ground, humidity_air, temperature_air))
+    f.write("{}, {}, {}, {}".format(datetime.datetime.now().strftime("%Y-%m-%d %H:00"), humidity_ground, humidity_air, temperature_air))
     f.close()
     time.sleep(5)
