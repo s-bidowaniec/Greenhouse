@@ -73,7 +73,7 @@ def say_hello(**payload):
             if humidity_ground is None:
                 response("Czujnik wilgotnosci gleby nie odpowiada")
             elif humidity_air is not None and temperature_air is not None:
-                response("Wilgotność gruntu wynosi {}%, temperatura powietrza wynosi {0:0.1f}C natomiast wilgotność powietrza {1:0.1f}%".format(humidity_ground, temperature_air, humidity_air))
+                response("Wilgotność gruntu wynosi {0}%, temperatura powietrza wynosi {1:0.1f}C natomiast wilgotność powietrza {2:0.1f}%".format(humidity_ground, temperature_air, humidity_air))
             else:
                 response("Czujnik DHT nie odpowiada")
 
