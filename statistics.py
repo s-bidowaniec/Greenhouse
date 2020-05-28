@@ -35,7 +35,7 @@ while True:
         humidity_air = -999
     if temperature_air is None:
         temperature_air = -999
-    f = open("demofile2.txt", "a")
+    f = open("/home/pi/Scripts/HK-47-IoT/statistics.csv", "a+")
     f.write("{}, {}, {}, {}".format(datetime.datetime.now().strftime("%Y-%m-%d %H:00"), humidity_ground, humidity_air, temperature_air))
     f.close()
     time.sleep(5)
